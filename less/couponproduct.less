@@ -1,0 +1,170 @@
+@import "./base.less";
+
+// 顶部
+#topbar {
+    width: 100%;
+    height: 50px;
+    background-color: lightcoral;
+    position: relative;
+    min-width: 320px;
+    .back {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        padding: 10px;
+        text-align: center;
+        line-height: 30px;
+        > a {
+            color: #fff;
+        }
+    }
+    .title {
+        margin: 0 50px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 20px;
+        color: #fff;
+    }
+    .app {
+        position: absolute;
+        padding: 8px;
+        width: 50px;
+        height: 50px;
+        background: url("../images/header_app.png") no-repeat;
+        background-size: 34px 34px;
+        background-origin: content-box;
+        right: 0;
+        top: 0;
+        >a {
+            display: block;
+            height: 100%;
+        }
+    }
+}
+
+// 优惠券列表
+#couponlists {
+    padding: 10px;
+    width: 100%;
+    min-width: 320px;
+    .title {
+        color: #ccc;
+        text-align: center;
+        font-size: 12px;
+    }
+    .detail {
+        .media {
+            border-bottom: 1px solid #ccc;
+            > a {
+                display: block;
+                .media-left {
+                    > img {
+                        width: 100px;
+                        height: 80px;
+                    }
+                }
+                .media-body {
+                    position: relative;
+                    > h4 {
+                        font-size: 12px;
+                        color: #000;
+                        margin: 0;
+                    }
+                    > span {
+                        color: red;
+                        font-size: 12px;
+                    }
+                    > p {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        color: @theme-color;
+                        font-size: 12px;
+                        margin: 0;
+                    }
+                    > i {
+                        position: absolute;
+                        right: 0;
+                        top: 50%;
+                        transform: translate(-50%);
+                        color: #333;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 当前位置
+#now-position {
+    height: 40px;
+    background-color: #888;
+    padding: 10px;
+    width: 100%;
+    min-width: 320px;
+    > a {
+        color: #fff;
+    }
+}
+
+// 登录注册
+#login {
+    padding: 10px 0;
+    height: 50px;
+    width: 100%;
+    min-width: 320px;
+    .row {
+        margin: 0;
+        > div {
+            padding: 0;
+            text-align: center;
+            line-height: 30px;
+            border: 1px solid #888;
+            border-left: 0 none;
+            &:last-of-type {
+                border-right: 0 none;
+            }
+            > a {
+                color: #000;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+// 底部
+#footer {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    min-width: 320px;
+    > p {
+        text-align: center;
+        margin-bottom: 0;
+        line-height: 30px;
+        > a {
+            color: @theme-color;
+            font-size: 12px;
+        }
+    }
+}
+
+// 遮罩层
+#cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.3);
+    text-align: center;
+    z-index: 999;
+    display: none;
+    > img {
+        width: 200px;
+        height: 160px;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%);
+    }
+}

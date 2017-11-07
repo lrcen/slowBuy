@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手机比价选购, 手机推荐哪个好 - 慢慢买手机版</title>
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet/less" href="./less/couponproduct.less">
+    <script src="./lib/less/less.js"></script>
+</head>
+
+<body>
+
+    <!-- 顶部 -->
+    <header id="topbar">
+        <div class="back">
+            <a href="./coupon.html">
+                <i class="glyphicon glyphicon-menu-left"></i>
+            </a>
+        </div>
+        <div class="title">
+            优惠券
+        </div>
+        <div class="app">
+            <a href="javascript:;"></a>
+        </div>
+    </header>
+
+    <!-- 优惠券列表 -->
+    <section id="couponlists">
+        <div class="title">--点餐前出示手机中的优惠券，即可享受优惠--</div>
+        <div class="detail">
+        </div>
+    </section>
+
+    <!-- 当前位置 -->
+    <section id="now-position">
+        <a href="./index.html">首页</a>
+        >
+        <a href="./coupon.html">优惠券</a>
+    </section>
+
+    <!-- 登录注册 -->
+    <section id="login">
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript:;">登录</a>
+            </div>
+            <div class="col-xs-3">
+                <a href="javascript:;">注册</a>
+            </div>
+            <div class="col-xs-6">
+                <a href="javascript:;">
+                    <i class="glyphicon glyphicon-menu-up"></i>
+                    返回顶部
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer id="footer">
+        <p>
+            <a href="javascript:;">手机APP下载</a>
+            慢慢买手机版 - 掌上比价平台
+        </p>
+        <p>
+            <a href="javascript:;">m.manmanbuy.com</a>
+        </p>
+    </footer>
+
+    <!-- 遮罩层 -->
+    <section id="cover">
+        <img src="" alt="">
+    </section>
+</body>
+<script src="./lib/jquery/jquery.js"></script>
+<script src="./lib/template/template.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+
+<script type="text/html" id="couponlistsTmp">
+    {{each result as value i}}
+    <div class="media">
+        <a href="javascript:;">
+            <div class="media-left">
+                {{#value.couponProductImg}}
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{value.couponProductName}}</h4>
+                <span>{{value.couponProductPrice}}</span>
+                <p>{{value.couponProductTime}}</p>
+                <i class="glyphicon glyphicon-menu-right"></i>
+            </div>
+        </a>
+    </div>
+    {{/each}}
+</script>
+<script>
+
+    var couponname = getRequest()['couponname'];
+    var couponid = getRequest()['couponid'];
+
+    couponname += '优惠券';
+    $("#now-position a:last-of-type").html(couponname);
+
+    $.ajax({
+        url: "http://157.122.54.189:9090/api/getcouponproduct",
+        data: {
+            couponid: couponid
+        },
+        success: function(backData) {
+            $("#couponlists .detail").html(template("couponlistsTmp", backData));
+
+
+            $("#couponlists .detail .media > a").on('click', function() {
+                $("#cover > img").attr('src',$(this).find('img').attr('src'));
+                $("#cover").fadeIn(300);
+            })
+
+        }
+    })
+    clickSimulation($('#cover'), function() {
+        $('#cover').fadeOut(300);
+    });
+
+
+    // 移动端单击事件模拟
+    function clickSimulation(ele, fn) {
+        var isMove = false;
+
+        ele.on("touchstart", function() {});
+
+        ele.on("touchmove", function() {
+            isMove = true;
+        });
+
+        ele.on("touchend", function() {
+            if(!isMove) {
+                fn();
+            }
+
+            isMove = false;
+        })
+    }
+
+    function getRequest() {
+        var url = window.location.search; //获取url中"?"符后的字串   
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                //就是这句的问题
+                theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+                //之前用了unescape()
+                //才会出现乱码  
+            }
+        }
+        return theRequest;
+    }
+</script>
+</html>

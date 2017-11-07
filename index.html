@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>慢慢买比价网 - 手机版</title>
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet/less" href="./less/index.less">
+    <script src="./lib/less/less.js"></script>
+</head>
+
+<body>
+
+    <!-- 顶部通栏 -->
+    <header id="topbar">
+        <div class="logo">
+            <a href="./index.html"></a>
+        </div>
+        <div class="app">
+            <a href="javascript:;"></a>
+        </div>
+    </header>
+
+    <!-- 搜索框 -->
+    <section id="search">
+        <form action="">
+            <input type="text" placeholder="请输入要比价的商品">
+            <input type="submit" value="搜索">
+        </form>
+    </section>
+
+    <!-- 分类 -->
+    <section id="category">
+        <div class="row">
+        </div>
+    </section>
+
+    <!-- 推荐版块 -->
+    <section id="recommend">
+        <div class="title">
+            <h4>超值折扣推荐</h4>
+            <a href="./moneyctrl.html">></a>
+        </div>
+        <div class="goods">
+        </div>
+        <div class="more">
+            <a href="./moneyctrl.html">更多优惠信息>></a>
+        </div>
+    </section>
+
+    <!-- 品牌 -->
+    <section id="brand">
+        <h4>品牌排行</h4>
+        <a href="./brandTitle.html">></a>
+    </section>
+
+    <!-- 注册登录 -->
+    <section id="login">
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript:;">登录</a>
+            </div>
+            <div class="col-xs-3">
+                <a href="javascript:;">注册</a>
+            </div>
+            <div class="col-xs-6">
+                <a href="javascript:;">
+                    <i class="glyphicon glyphicon-menu-up"></i>
+                    返回顶部
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer id="footer">
+        <p>
+            <a href="javascript:;">手机APP下载</a>
+            慢慢买手机版 - 掌上比价平台
+        </p>
+        <p>
+            <a href="javascript:;">m.manmanbuy.com</a>
+        </p>
+    </footer>
+</body>
+
+<script src="./lib/jquery/jquery.js"></script>
+<script src="./lib/template/template.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script src="./js/index.js"></script>
+
+<!-- 分类模板 -->
+<script type="text/html" id="cateTmp">
+    {{each result as value i}} 
+    {{if i < 8}} 
+    <div class="col-xs-3">
+        <a href="{{value.titlehref}}">
+            {{#value.img}}
+            <h4>{{value.name}}</h4>
+        </a>
+    </div>
+    {{else}}
+    <div class="col-xs-3 hidden">
+        <a href="{{value.titlehref}}">
+            {{#value.img}}
+            <h4>{{value.name}}</h4>
+        </a>
+    </div>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!-- 折扣模板 -->
+<script type="text/html" id="countTmp">
+    {{each result as value i}}
+    <div class="media">
+        <a href="./inlanddiscountdetail.html?productid={{value.productId}}">
+            <div class="media-left">
+                {{#value.productImgSm}}
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{value.productName}} <span>{{value.productPinkage}}</span></h4>
+                <div class="about">
+                    <span class="detail pull-left">
+                        {{value.productFrom}} | {{value.productTime}}
+                    </span>
+                    <span class="comment pull-right">
+                        <i class="glyphicon glyphicon-option-horizontal"></i>
+                        {{value.productComCount.replace('有', '').replace('人评论', '')}}
+                    </span>
+                </div>
+            </div>
+        </a>
+    </div>
+    {{/each}}
+</script>
+
+<script>
+    $(function () {
+
+        //分类
+        $.ajax({
+            url: "http://157.122.54.189:9090/api/getindexmenu",
+            success: function (backData) {
+                $("#category .row").html(template("cateTmp", backData));
+
+                var clickState = true;
+                var isMove = false;
+                // var more = $("#category .row div:eq(7)");
+                $("#category .row div:eq(7)").on("touchstart", function () {});
+                $("#category .row div:eq(7)").on("touchmove", function () {
+                    // 只有触发移动事件, 变量就改为真
+                    isMove = true;
+                });
+                $("#category .row div:eq(7)").on("touchend", function () {
+                    if (!isMove) {
+                        if(clickState){
+                            $(this).nextAll().removeClass("hidden");
+                            clickState = false;
+                        }else {
+                            $(this).nextAll().addClass("hidden");
+                            clickState = true;
+                        }
+                    }
+                    isMove = false;
+                });
+            }
+        })
+
+        //折扣商品
+        $.ajax({
+            url: "http://157.122.54.189:9090/api/getmoneyctrl",
+            success: function (backData) {
+                $(".goods").html(template("countTmp", backData));
+            }
+        })
+
+    })
+</script>
+
+</html>

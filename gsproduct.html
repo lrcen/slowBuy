@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>凑单品 --慢慢买比价网</title>
+    <!-- 引入bootstrap css 文件 -->
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+    <!-- 引入自己的less 文件 -->
+    <link rel="stylesheet/less" href="./less/gsproduct.less">
+    <!-- 引入less js 编译器文件 -->
+    <script src="./lib/less/less.js"></script>
+
+</head>
+
+<body>
+    <!-- 顶部通栏 -->
+    <header id="header" class="pr">
+        <div class="go-back pa">
+            <a href="./index.html">
+                <i class="glyphicon glyphicon-menu-left"></i>
+            </a>
+        </div>
+        <h1>凑单品</h1>
+    </header>
+    <!-- 主体内容 -->
+    <section id="main">
+        <div class="main-header pr">
+            <div class="drop-down">
+                <div class="row text-center">
+                    <div class="col-xs-4">
+                        <a href="#" id="shopName">
+                            <span>京东</span>
+                            <i class="glyphicon glyphicon-triangle-bottom"></i>
+                        </a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a href="#" id="areaName">
+                            <span>华北</span>
+                            <i class="glyphicon glyphicon-triangle-bottom"></i>
+                        </a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a href="#" id="price">
+                            <span>1元</span>
+                            <i class="glyphicon glyphicon-triangle-bottom"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="search pa">
+                <a href="#">
+                    <i class="glyphicon glyphicon-list"></i>
+                </a>
+            </div>
+            <ul class="drop-down-shop pa">
+                <li class="active">
+                    <a href="javascript:;" class="clearfix">
+                        <span class="pull-left">蓝色土耳其</span>
+                        <span class="pull-right">
+                            <i class="glyphicon glyphicon-ok"></i>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="drop-down-area pa">
+                <li class="active">
+                    <a href="javascript:;" class="clearfix">
+                        <span class="pull-left">蓝色土耳其</span>
+                        <span class="pull-right">
+                            <i class="glyphicon glyphicon-ok"></i>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        </div>
+        <div class="main-body">
+            <div class="row">
+                <div class="col-xs-6">
+                    <a href="#">
+                        <!-- <img src="../images/58e2e373N84dd88ac.jpg" alt=""> -->
+                        <p class="title">富士（FUJIFILM）5英寸正方形白边绒面照片 不易留指痕(上传后点击缩略图调整照片区域)</p>
+                        <p class="price">￥12.00</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 引入jquery -->
+    <script src="./lib/jquery/jquery.js"></script>
+    <!-- 引入template 模板插件 -->
+    <script src="./lib/template/template.js"></script>
+    <!-- 定义店铺模板 -->
+    <script type="text/html" id="shopListTemp">
+        {{each result as value i}} {{if i==0}}
+        <li class="active" data-shop-id="{{value.shopId}}">
+            <a href="javascript:;" class="clearfix">
+                <span class="pull-left">{{value.shopName}}</span>
+                <span class="pull-right">
+                    <i class="glyphicon glyphicon-ok"></i>
+                </span>
+            </a>
+        </li>
+        {{else}}
+        <li data-shop-id="{{value.shopId}}">
+            <a href="javascript:;" class="clearfix">
+                <span class="pull-left">{{value.shopName}}</span>
+                <span class="pull-right">
+                    <i class="glyphicon glyphicon-ok"></i>
+                </span>
+            </a>
+        </li>
+        {{/if}} {{/each}}
+    </script>
+    <!-- 定义地区模板 -->
+    <script type="text/html" id="areaListTemp">
+        {{each result as value i}} {{if i==0}}
+        <li class="active" data-area-id="{{value.areaId}}">
+            <a href="javascript:;" class="clearfix">
+                <span class="pull-left">{{value.areaName}}</span>
+                <span class="pull-right">
+                    <i class="glyphicon glyphicon-ok"></i>
+                </span>
+            </a>
+        </li>
+        {{else}}
+        <li data-area-id="{{value.areaId}}">
+            <a href="javascript:;" class="clearfix">
+                <span class="pull-left">{{value.areaName}}</span>
+                <span class="pull-right">
+                    <i class="glyphicon glyphicon-ok"></i>
+                </span>
+            </a>
+        </li>
+        {{/if}} {{/each}}
+    </script>
+    <!-- 定义主体凑单品商品列表 模板 -->
+    <script type="text/html" id="coudanProductTemp">
+        {{each result as value i}}
+        <div class="col-xs-6">
+            <a href="#">
+                <img src="{{value.productImg}}" alt="">
+                <p class="title">{{value.productName}}</p>
+                <p class="price">{{value.productPrice}}</p>
+            </a>
+        </div>
+        {{/each}}
+    </script>
+
+    <!-- 引入自己的js -->
+    <script src="./js/gsproduct.js"></script>
+</body>
+
+</html>

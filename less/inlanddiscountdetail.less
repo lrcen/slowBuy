@@ -1,0 +1,281 @@
+@import "./base.less";
+
+// 顶部
+#topbar {
+    width: 100%;
+    height: 50px;
+    background-color: @theme-color;
+    position: relative;
+    min-width: 320px;
+    .back {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        padding: 10px;
+        text-align: center;
+        line-height: 30px;
+        > a {
+            color: #fff;
+        }
+    }
+    .title {
+        margin: 0 50px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 20px;
+        color: #fff;
+    }
+    .app {
+        position: absolute;
+        padding: 8px;
+        width: 50px;
+        height: 50px;
+        background: url("../images/header_app.png") no-repeat;
+        background-size: 34px 34px;
+        background-origin: content-box;
+        right: 0;
+        top: 0;
+        >a {
+            display: block;
+            height: 100%;
+        }
+    }
+}
+
+// 商品名称
+#good-detail {
+    width: 100%;
+    min-width: 320px;
+    .intro {
+        padding: 20px 10px;
+        .title {
+            > h3 {
+                margin: 0;
+                font-size: 18px;
+                font-weight: 600;
+            }
+            > p {
+                margin: 0;
+                line-height: 40px;
+                font-weight: 600;
+                color: @theme-color;
+            }
+            > span {
+                font-size: 12px;
+                color: #ccc;
+            }
+        }
+        .about {
+            margin: 20px 0;
+            .pic {
+                float: right;
+                > img {
+                    width: 120px;
+                    height: 120px;
+                }
+            }
+        }
+        .bigpic {
+            text-align: center;
+            margin-top: 40px;
+            > img {
+                width: 350px;
+                height: 350px;
+            }
+        }
+        .commodity {
+            margin: 20px 0;
+            > ul {
+                width: 150px;
+                margin: 0 auto;
+                background-color: #fff;
+                box-shadow: 5px 5px 5px 5px rgba(0,0,0,.3);
+                padding: 5px 10px;
+                > li {
+                    border-bottom: 1px dashed #000;
+                    height: 20px;
+                    line-height: 20px;
+                    > a {
+                        color: #000;
+                        font-size: 12px;
+                        display: block;
+                        padding: 0 10px;
+                        > span {
+                            > strong {
+                                color: @theme-color;
+                                float: right;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .buy {
+            margin-top: 60px;
+            border-bottom: 1px solid #ccc; 
+            background-color: @theme-color;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
+            border-radius: 10px;
+            > a {
+                color: #fff;
+            }
+        }
+        .comment {
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding: 0 0 10px;
+            .tit {
+                font-size: 16px;
+                padding: 10px 0;
+            }
+            .form {
+                position: relative;
+                > textarea {
+                    width: 100%;
+                    height: 100px;
+                }
+                .ctrl {
+                    position: absolute;
+                    bottom: 5px;
+                    left: 0;
+                    width: 100%;
+                    height: 30px;
+                    background-color: #ccc;
+                    > input {
+                        position: absolute;
+                        height: 30px;
+                        width: 100px;
+                        bottom: 0;
+                        right: 0;
+                        background-color: @theme-color;
+                        color: #fff;
+
+                    }
+                }
+            }
+            .list {
+                li {
+                    padding: 10px 0;
+                    border-bottom: 1px solid #ccc;
+                    .userimg {
+                        float: left;
+                        > img {
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                        }
+                    }
+                    .con {
+                        margin-left: 50px;
+                        font-size: 12px;
+                        .username {
+                            color: skyblue;
+                            float: left;
+                        }
+                        .time {
+                            float: right;
+                            color: #ccc;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 当前位置
+#now-position {
+    width: 100%;
+    min-width: 320px;
+    padding: 10px;
+    height: 40px;
+    background-color: #888;
+    > a {
+        color: #fff;
+        font-size: 12px;
+    }
+}
+
+// 登录注册
+#login {
+    padding: 10px 0;
+    height: 50px;
+    width: 100%;
+    min-width: 320px;
+    .row {
+        margin: 0;
+        > div {
+            padding: 0;
+            text-align: center;
+            line-height: 30px;
+            border: 1px solid #888;
+            border-left: 0 none;
+            &:last-of-type {
+                border-right: 0 none;
+            }
+            > a {
+                color: #000;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+// 底部
+#footer {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    min-width: 320px;
+    > p {
+        text-align: center;
+        margin-bottom: 0;
+        line-height: 30px;
+        > a {
+            color: @theme-color;
+            font-size: 12px;
+        }
+    }
+}
+
+
+// 现在购买
+#buynow {
+    height: 50px;
+    width: 100%;
+    min-width: 320px;
+    position: fixed;
+    text-align: center;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+    .write-comment {
+        width: 25%;
+        background-color: #fff;
+        height: 100%;
+        > a {
+            color: #000;
+            display: block;
+            font-size: 12px;
+            height: 100%;
+            padding: 10px 0;
+            > i {
+                display: block;
+                margin-bottom: 5px;
+            }
+        }
+    }
+    .take {
+        width: 75%;
+        background-color: @theme-color;
+        height: 100%;
+        line-height: 50px;
+        > a {
+            display: block;
+            color: #fff;
+        }
+    }
+}

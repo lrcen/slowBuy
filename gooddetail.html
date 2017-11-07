@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手机比价选购, 手机推荐哪个好 - 慢慢买手机版</title>
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet/less" href="./less/gooddetail.less">
+    <script src="./lib/less/less.js"></script>
+</head>
+
+<body>
+
+    <!-- 顶部 -->
+    <header id="topbar">
+        <div class="logo">
+            <a href="./index.html"></a>
+        </div>
+        <div class="app">
+            <a href="javascript:;"></a>
+        </div>
+    </header>
+
+    <!-- 搜索栏 -->
+    <section id="search">
+        <form action="">
+            <input type="text" placeholder="请输入您想比价的商品">
+            <input type="submit" value="搜索">
+        </form>
+    </section>
+
+    <!-- 当前位置 -->
+    <section id="now-position">
+        <div class="title">
+            <a href="./index.html">首页</a>
+            >
+            <a href=""></a>
+            >
+            <a href="javascript:;"></a>
+        </div>
+        <div class="content">
+        </div>
+    </section>
+
+    <!-- 网游评论 -->
+    <section id="comments">
+        <div class="title">
+            <h4>优选网友评论</h4>
+        </div>
+        <div class="comment-lists">
+            <ul class="clearfix">
+            </ul>
+        </div>
+    </section>
+
+    <!-- 更多评论 -->
+    <section id="more-comment">
+        <a href="javascript:;">查看更多评论</a>
+    </section>
+
+    <!-- 登录注册 -->
+    <section id="login">
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript:;">登录</a>
+            </div>
+            <div class="col-xs-3">
+                <a href="javascript:;">注册</a>
+            </div>
+            <div class="col-xs-6">
+                <a href="javascript:;">
+                    <i class="glyphicon glyphicon-menu-up"></i>
+                    返回顶部
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer id="footer">
+        <p>
+            <a href="javascript:;">手机APP下载</a>
+            慢慢买手机版 - 掌上比价平台
+        </p>
+        <p>
+            <a href="javascript:;">m.manmanbuy.com</a>
+        </p>
+    </footer>
+</body>
+<script src="./lib/jquery/jquery.js"></script>
+<script src="./lib/template/template.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script src="./js/gooddetail.js"></script>
+
+<!-- 当前商品模板 -->
+<script type="text/html" id="nowgoodTmp">
+    {{each result as value i}}
+    <div class="pic">
+        {{#value.productImg}}
+        <a href="javascript:;">收藏</a>
+    </div>
+    <div class="about">
+        <h4>{{value.productName}}</h4>
+        <div class="price clearfix">
+            <span class="pull-left">当前最低:
+                <i>it`s free!</i>
+            </span>
+            <span class="pull-right">优选评论:
+                <i>999+</i>条
+            </span>
+        </div>
+    </div>
+    <div class="buy">
+        <div class="head">
+            <div class="row">
+                <div class="col-xs-4 active">
+                    <a href="javascript:;">比价购买</a>
+                </div>
+                <div class="col-xs-4">
+                    <a href="javascript:;">产品参数</a>
+                </div>
+                <div class="col-xs-4">
+                    <a href="javascript:;">优选评价</a>
+                </div>
+            </div>
+        </div>
+        <div class="body">
+            {{#value.bjShop}}
+        </div>
+        <div class="attention">
+            <p> * 实际价格以各网站列出的实时售价为准，我们提供的价格可能有数小时至数日的延迟。</p>
+        </div>
+    </div>
+    {{/each}}
+</script>
+
+<!-- 评论模板 -->
+<script type="text/html" id="commentTmp">
+    {{each result as value i}}
+    <li>
+        <div class="infos clearfix">
+            <div class="name pull-left">
+                <p>{{value.comName}}</p>
+            </div>
+            <div class="time pull-right">
+                <p>{{value.comTime}}</p>
+                <p>{{value.comFrom}}</p>
+            </div>
+        </div>
+        <div class="words">
+            <p>{{value.comContent}}</p>
+        </div>
+        <div class="reply">
+            <a href="javascript:;">回复</a>
+        </div>
+    </li>
+    {{/each}}
+</script>
+<script>
+    $(function () {
+        var productid = window.location.search;
+
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+
+        productid = GetQueryString("productid");
+
+        function getRequest() {
+            var url = window.location.search; //获取url中"?"符后的字串   
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    //就是这句的问题
+                    theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+                    //之前用了unescape()
+                    //才会出现乱码  
+                }
+            }
+            return theRequest;
+        }
+
+        //修改当前位置中第二栏 指向 该页上一级 分类 的页面
+        var category = getRequest()['category'];
+        var categoryid = getRequest()['categoryid']; //获取分类id
+        // console.log(category);
+        $("#now-position .title a:nth-of-type(2)").html(category);
+        $("#now-position .title a:nth-of-type(2)").attr('href', './goodsLists.html?category='+category+'&categoryid='+categoryid);
+
+        var brandname = ''; //保存产品名称的变量
+        var alt = ''; //临时存储图片的alt信息的变量
+        $.ajax({
+            url: "http://157.122.54.189:9090/api/getproduct",
+            data: {
+                productid: productid
+            },
+            success: function (backData) {
+                // console.log(backData);
+                $("#now-position .content").html(template("nowgoodTmp", backData));
+
+                alt = $("#now-position .content .pic img").attr('alt'); //取到img图片的alt属性值
+                alt = alt.split(' '); //切割, 得到数组
+                brandname += alt[0]; //拿到第一个数组中的元素, 
+                $("#now-position .title a:last-of-type").html(brandname);
+            }
+        });
+
+        $.ajax({
+            url: "http://157.122.54.189:9090/api/getproductcom",
+            data: {
+                productid: productid
+            },
+            success: function(backData) {
+                // console.log(template("commentTmp", backData));
+                $(".comment-lists ul").html(template("commentTmp", backData));
+            }
+        })
+    })
+</script>
+
+</html>

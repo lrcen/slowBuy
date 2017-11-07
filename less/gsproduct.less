@@ -1,0 +1,142 @@
+/*
+ * @Author: wuzhizhe/chenGuangHui 
+ * @Date: 2017-11-05 13:01:44 
+ * @Last Modified by: wuzhizhe/chenGuangHui
+ * @Last Modified time: 2017-11-06 14:04:41
+ */
+
+ //  引入base 文件
+@import 'base2.less';
+
+a:hover{
+    text-decoration: none;
+    color: @theme-color;
+}
+a:focus {
+    color: #666;
+    text-decoration: none;
+}
+
+// 顶部通栏
+#header{
+    width: 100%;
+    background-color: @theme-color;
+    height: 45px;
+    color: #fff;
+    text-align: center;
+    .go-back{
+        width: 50px;
+        height: 100%;
+        top: 0;
+        left: 0;
+        a{
+            display: block;
+            line-height: 45px;
+            color: #fff;
+            font-size: 16px;
+        }
+    }
+    h1{
+        margin: 0;
+        font-weight: normal;
+        font-size: 20px;
+        line-height: 45px;
+        // margin-left: 50px;
+    }
+}
+
+// 主体内容
+#main{
+    .main-header{
+        width: 100%;
+        height: 40px;
+        color: #666;
+        background-color: #fff;
+        border-bottom: 1px solid #ccc;
+        .drop-down{
+            height: 100%;
+            margin-right: 40px;
+            border-right: 1px solid #ccc;
+            .row{
+                font-size: 16px;
+                line-height: 40px;
+                a{
+                    display: block;
+                }
+                .glyphicon{
+                    top: 3px;
+                }
+            }
+        }
+        .search{
+            width: 40px;
+            height: 100%;
+            top: 0;
+            right: 0;
+            text-align: center;
+            line-height: 40px;
+            font-size: 18px;
+        }
+
+        .drop-down-shop,
+        .drop-down-area {
+            display: none;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            background-color: #fff;
+            box-shadow: 0px 1px 1px 1px #ccc;
+            >li{
+                height: 40px;
+                width: 100%; 
+                border-bottom: 1px solid #ccc;
+                line-height: 39px;
+                
+                >a{
+                    display: block;
+                    padding: 0px 10px;
+                }
+                .pull-right{
+                    color: rgba(255, 0, 0, 0.6);
+                    font-size: 16px;
+                    display: none;
+                }
+                &.active{
+                    .pull-right{
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+
+    .main-body{
+        padding: 5px;
+        .row{
+            >div{
+                // height: 350px;
+                border: 3px solid #F2F2F2;
+                padding: 5px;
+                background-color: #fff;
+                overflow: hidden;
+                >a{
+                    display: block;
+                }
+            }
+            img{
+                width: 100%;
+            }
+            p.title{
+                height: 20px;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+                overflow: hidden;
+            }
+            p.price{
+                color: red;
+            }
+        }
+    }
+}

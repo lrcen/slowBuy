@@ -1,0 +1,337 @@
+@import "./base.less";
+
+// 顶部
+#topbar {
+    width: 100%;
+    height: 50px;
+    background-color: @theme-color;
+    position: relative;
+    min-width: 320px;
+    .logo {
+        padding: 12px;
+        margin-right: 50px;
+        height: 100%;
+        background: url("../images/header_logo.png") no-repeat;
+        background-size: 185px 25px;
+        background-origin: content-box;
+        >a {
+            display: block;
+            height: 100%;
+        }
+    }
+    .app {
+        position: absolute;
+        padding: 8px;
+        width: 50px;
+        height: 50px;
+        background: url("../images/header_app.png") no-repeat;
+        background-size: 34px 34px;
+        background-origin: content-box;
+        right: 0;
+        top: 0;
+        >a {
+            display: block;
+            height: 100%;
+        }
+    }
+}
+
+// 搜索
+#search {
+    height: 50px;
+    min-width: 320px;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    position: relative;
+    >form {
+        >input[type="text"] {
+            width: 100%;
+            border-radius: 15px;
+            height: 30px;
+            padding-left: 20px;
+            background-color: #ccc;
+        }
+        >input[type="submit"] {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            width: 60px;
+            height: 30px;
+            background-color: @theme-color;
+            color: #fff;
+            border-radius: 15px;
+        }
+    }
+}
+
+// 当前位置
+#now-position {
+    width: 100%;
+    min-width: 320px;
+    padding: 10px;
+    background-color: #888;
+    font-size: 14px;
+    > a {
+        color: #fff;
+        text-decoration: none;
+    }
+}
+
+// 商品列表
+#all-brand {
+    width: 100%;
+    min-width: 320px;
+    background-color: #e0e0e0;
+    .title {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0;
+            color: @theme-color;
+        }
+    }
+    .content {
+        > ul {
+            margin: 0;
+            > li {
+                padding: 10px;
+                height: 60px;
+                border-bottom: 1px solid #ccc;
+                > a {
+                    color: #000;
+                    text-decoration: none;
+                    position: relative;
+                    display: block;
+                    .media {
+                        margin-right: 44px;
+                        .media-left {
+                            > span {
+                                display: block;
+                                width: 20px;
+                                height: 20px;
+                                text-align: center;
+                                line-height: 20px;
+                                background-color: #888;
+                                color: #fff;
+                            }
+                        }
+                        .media-body {
+                            > h4 {
+                                font-size: 16px;
+                            }
+                            > p {
+                                margin: 0;
+                                color: #888;
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                    .more {
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        width: 44px;
+                        padding: 12px; 
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 销量列表
+#sales {
+    width: 100%;
+    min-width: 320px;
+    background-color: #e0e0e0;
+    .title {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        h4 {
+            margin: 0;
+            > a {
+                font-size: 14px;
+                font-weight: 600;
+                color: @theme-color;
+            }
+        }
+    }
+    .content {
+        > ul {
+            margin: 0;
+            > li {
+                padding: 10px;
+                height: 120px;
+                border-bottom: 1px solid #ccc;
+                > a {
+                    color: #000;
+                    text-decoration: none;
+                    position: relative;
+                    display: block;
+                    .media-left {
+                        > img {
+                            width: 100px;
+                            height: 100px;
+                        }
+                    }
+                    .media-body {
+                        > h4 {
+                            font-size: 14px;
+                            margin-bottom: 20px;
+                        }
+                        > p {
+                            margin: 0;
+                            &:first-of-type {
+                                color: orangered;
+                                font-size: 20px;
+                            }
+                            &:last-of-type {
+                                color: #666;
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                    .star {
+                        position: absolute;
+                        right: 0;
+                        bottom: 20px;
+                        font-size: 20px;
+                        > i {
+                            color: @theme-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 评论列表
+#comment {
+    width: 100%;
+    min-width: 320px;
+    background-color: #e0e0e0;
+    .title {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        h4 {
+            margin: 0;
+            > a {
+                font-size: 14px;
+                font-weight: 600;
+                color: @theme-color;
+            }
+        }
+    }
+    .content {
+        > ul {
+            margin: 0;
+            > li {
+                padding: 10px;
+                border-bottom: 1px solid #ccc;
+                > a {
+                    color: #000;
+                    text-decoration: none;
+                    position: relative;
+                    display: block;
+                    margin-bottom: 20px;
+                    .media-left {
+                        > img {
+                            width: 80px;
+                            height: 80px;
+                        }
+                    }
+                    .media-body {
+                        > h4 {
+                            font-size: 14px;
+                            color: #999;
+                        }
+                    }
+                }
+                .comments {
+                    position: relative;
+                    background-color: #fff;
+                    border-radius: 10px;
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        width: 0;
+                        height: 0;
+                        border: 5px solid #fff;
+                        border-color: transparent transparent #fff transparent;
+                        left: 35px;
+                        top: -10px;
+                    }
+                    > a {
+                        display: block;
+                        padding: 10px;
+                        color: #000;
+                        text-decoration: none;
+                        .info {
+                            font-size: 12px;
+                            color: #ccc;
+                            .user {
+                                > span {
+                                    > i {
+                                        color: @theme-color;
+                                    }
+                                }
+                            }
+                        }
+                        > p {
+                            margin: 0;
+                            margin-top: 20px;
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 登录注册
+#login {
+    padding: 10px 0;
+    height: 50px;
+    width: 100%;
+    min-width: 320px;
+    margin-top: 40px;
+    .row {
+        margin: 0;
+        > div {
+            padding: 0;
+            text-align: center;
+            line-height: 30px;
+            border: 1px solid #888;
+            border-left: 0 none;
+            &:last-of-type {
+                border-right: 0 none;
+            }
+            > a {
+                color: #000;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+// 底部
+#footer {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    min-width: 320px;
+    > p {
+        text-align: center;
+        margin-bottom: 0;
+        line-height: 30px;
+        > a {
+            color: @theme-color;
+            font-size: 12px;
+        }
+    }
+}

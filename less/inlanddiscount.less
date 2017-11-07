@@ -1,0 +1,138 @@
+@import "./base.less";
+
+// 顶部
+#topbar {
+    width: 100%;
+    height: 50px;
+    background-color: @theme-color;
+    position: relative;
+    min-width: 320px;
+    .back {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        padding: 10px;
+        text-align: center;
+        line-height: 30px;
+        > a {
+            color: #fff;
+        }
+    }
+    .title {
+        margin: 0 50px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 20px;
+        color: #fff;
+    }
+    .app {
+        position: absolute;
+        padding: 8px;
+        width: 50px;
+        height: 50px;
+        background: url("../images/header_app.png") no-repeat;
+        background-size: 34px 34px;
+        background-origin: content-box;
+        right: 0;
+        top: 0;
+        >a {
+            display: block;
+            height: 100%;
+        }
+    }
+}
+
+// 主体部分
+#count-goods {
+    width: 100%;
+    min-width: 320px;
+    > ul {
+        > li {
+            float: left;
+            width: 50%;
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+            height: 270px;
+            &:nth-of-type(2n) {
+                border-left: 1px solid #ccc;
+            }
+            .pic {
+                text-align: center;
+                img {
+                    width: 140px;
+                    height: 140px;
+                }
+            }
+            > a {
+                position: relative;
+                display: block;
+                height: 100%;
+                > h4 {
+                    color: #000;
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+                .about {
+                    position: absolute;
+                    bottom: 0px;
+                    left: 0;
+                    > p:first-of-type {
+                        color: @theme-color;
+                        margin: 0;
+                        line-height: 30px;
+                        white-space: nowrap;
+                    }
+                    > p:last-of-type {
+                        color: #ccc;
+                        margin: 0;
+                        line-height: 20px;
+                        font-size: 12px;
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 登录注册
+#login {
+    padding: 10px 0;
+    height: 50px;
+    width: 100%;
+    min-width: 320px;
+    .row {
+        margin: 0;
+        > div {
+            padding: 0;
+            text-align: center;
+            line-height: 30px;
+            border: 1px solid #888;
+            border-left: 0 none;
+            &:last-of-type {
+                border-right: 0 none;
+            }
+            > a {
+                color: #000;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+// 底部
+#footer {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    min-width: 320px;
+    > p {
+        text-align: center;
+        margin-bottom: 0;
+        line-height: 30px;
+        > a {
+            color: @theme-color;
+            font-size: 12px;
+        }
+    }
+}

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手机比价选购, 手机推荐哪个好 - 慢慢买手机版</title>
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet/less" href="./less/moneyctrl.less">
+    <script src="./lib/less/less.js"></script>
+</head>
+
+<body>
+
+    <!-- 顶部 -->
+    <header id="topbar">
+        <div class="back">
+            <a href="./index.html">
+                <i class="glyphicon glyphicon-menu-left"></i>
+            </a>
+        </div>
+        <div class="title">
+            省钱控 - 最新优惠
+        </div>
+        <div class="app">
+            <a href="javascript:;"></a>
+        </div>
+    </header>
+
+    <!-- 主体列表 -->
+    <main id="lists">
+    </main>
+
+    <section id="page">
+        <a href="javascript:;" id="pre">上一页</a>
+        <div class="page-id">
+            <select name="pageid" id="pageid">
+            </select>
+        </div>
+        <a href="javascript:;" id="next">下一页</a>
+    </section>
+
+    <!-- 当前位置 -->
+    <section id="now-position">
+        <a href="./index.html">首页</a>
+        >
+        <a href="javascript:;">省钱控</a>
+    </section>
+
+    <!-- 登录注册 -->
+    <section id="login">
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript:;">登录</a>
+            </div>
+            <div class="col-xs-3">
+                <a href="javascript:;">注册</a>
+            </div>
+            <div class="col-xs-6">
+                <a href="javascript:;">
+                    <i class="glyphicon glyphicon-menu-up"></i>
+                    返回顶部
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer id="footer">
+        <p>
+            <a href="javascript:;">手机APP下载</a>
+            慢慢买手机版 - 掌上比价平台
+        </p>
+        <p>
+            <a href="javascript:;">m.manmanbuy.com</a>
+        </p>
+    </footer>
+</body>
+<script src="./lib/jquery/jquery.js"></script>
+<script src="./lib/template/template.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script src="./js/moneyctrl.js"></script>
+
+<!-- 主体模板 -->
+<script type="text/html" id="listsTmp">
+    {{each result as value i}}
+    <div class="media">
+        <a href="./moneyctrldetail.html?productid={{value.productId}}">
+            <div class="media-left">
+                {{#value.productImgSm}}
+            </div>
+            <div class="media-body">
+                <div class="title">
+                    <h4 class="media-heading">{{value.productName}} <span>{{value.productPinkage}}</span></h4>
+                </div>
+                <div class="about">
+                    <span class="pull-left">{{value.productFrom}}|{{value.productTime}}</span>
+                    <span class="pull-right">
+                        <i class="glyphicon glyphicon-option-horizontal"></i>
+                        {{value.productComCount.replace('有', '').replace('人评论', '')}}
+                    </span>
+                </div>
+            </div>
+        </a>
+    </div>
+    {{/each}}
+</script>
+
+
+<script>
+    $(function() {
+
+        //定义页数变量
+        var pageNum = 0;
+        var htmlArr = [];
+        var html = '';
+        var val = 0;
+        $.ajax({
+            url: "http://157.122.54.189:9090/api/getmoneyctrl",
+            data: {
+                // pageid: 0
+            },
+            success: function(backData) {
+                $("#lists").html(template("listsTmp", backData));
+                pageNum = Math.ceil(backData.totalCount / backData.pagesize);//计算总页数
+                // console.log(pageNum);
+                for(var i = 0; i < pageNum; i++) {
+                    htmlArr[htmlArr.length] = '<option value="'+i+'">'+(i+1)+'/'+pageNum+'</option>';
+                }
+                html = htmlArr.join("");
+                
+                $("#page .page-id select").html(html);
+
+                //选择页数进行跳转
+                $("#page .page-id select").on("change", function() {
+                    val = $(this).val();
+                    pageid = val; //pageid从0开始
+                    $.ajax({
+                        url: "http://157.122.54.189:9090/api/getmoneyctrl",
+                        data: {
+                            pageid: val
+                        },
+                        success: function(backData) {
+                            $("#lists").html(template("listsTmp", backData));
+                        }
+                    });
+                })
+            }
+        });
+
+        var pageid = 0; //默认为第0页
+
+        clickSimulation($("#pre"), function() {
+            pageid--;
+            if(pageid < 0) {
+                pageid = 0;
+                return false;
+            }
+            $.ajax({
+                url: "http://157.122.54.189:9090/api/getmoneyctrl",
+                data: {
+                    pageid: pageid
+                },
+                success: function(backData) {
+                    $("#lists").html(template("listsTmp", backData));
+                }
+            });
+            $("#page .page-id select").val(pageid).prop("selected", true);
+        });
+
+        clickSimulation($("#next"), function() {
+            pageid++;
+            if(pageid > pageNum - 1) {
+                pageid = pageNum - 1; //pageid从0开始
+                return false;
+            }
+            $.ajax({
+                url: "http://157.122.54.189:9090/api/getmoneyctrl",
+                data: {
+                    pageid: pageid
+                },
+                success: function(backData) {
+                    $("#lists").html(template("listsTmp", backData));
+                }
+            });
+            $("#page .page-id select").val(pageid).prop("selected", true);
+        });
+
+
+
+
+        //封装 手机端模拟点击事件
+        function clickSimulation(ele, fn) {
+            var isMove = false;
+
+            // 在移动端 点击事件会有300ms左右的延迟 使用touch事件来模拟
+            ele.on("touchstart", function () {});
+            ele.on("touchmove", function () {
+                // 只有触发移动事件, 变量就改为真
+                isMove = true;
+            });
+            ele.on("touchend", function () {
+                if (!isMove) {
+                    fn();
+                }
+                isMove = false;
+            });
+        }
+    })
+</script>
+</html>

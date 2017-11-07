@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手机比价选购, 手机推荐哪个好 - 慢慢买手机版</title>
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet/less" href="./less/moneyctrldetail.less">
+    <script src="./lib/less/less.js"></script>
+</head>
+
+<body>
+
+    <!-- 顶部 -->
+    <header id="topbar">
+        <div class="back">
+            <a href="./moneyctrl.html">
+                <i class="glyphicon glyphicon-menu-left"></i>
+            </a>
+        </div>
+        <div class="title">
+            国内折扣
+        </div>
+        <div class="app">
+            <a href="javascript:;"></a>
+        </div>
+    </header>
+
+    <!-- 商品 -->
+    <section id="good-detail">
+        <div class="intro">
+        </div>
+    </section>
+
+    <!-- 当前位置 -->
+    <section id="now-position">
+        <a href="./index.html">首页</a>
+        >
+        <a href="./moneyctrl.html">省钱控</a>
+        >
+        <a href="javascript:;"></a>
+    </section>
+
+    <!-- 登录注册 -->
+    <section id="login">
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript:;">登录</a>
+            </div>
+            <div class="col-xs-3">
+                <a href="javascript:;">注册</a>
+            </div>
+            <div class="col-xs-6">
+                <a href="javascript:;">
+                    <i class="glyphicon glyphicon-menu-up"></i>
+                    返回顶部
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer id="footer">
+        <p>
+            <a href="javascript:;">手机APP下载</a>
+            慢慢买手机版 - 掌上比价平台
+        </p>
+        <p>
+            <a href="javascript:;">m.manmanbuy.com</a>
+        </p>
+    </footer>
+
+    <!-- 现在购买 -->
+    <section id="buynow" class="clearfix">
+        <div class="write-comment pull-left">
+            <a href="javascript:;">
+                <i class="glyphicon glyphicon-pencil"></i>
+                评论
+            </a>
+        </div>
+        <div class="take pull-right">
+            <a href="javascript:;">
+                <i class="glyphicon glyphicon-shopping-cart"></i>
+                立即购买
+            </a>
+        </div>
+    </section>
+</body>
+<script src="./lib/jquery/jquery.js"></script>
+<script src="./lib/template/template.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script src="./js/moneyctrldetail.js"></script>
+
+
+<script type="text/html" id="detailTmp">
+    {{each result as value i}}
+    <div class="title">
+        <h3>{{value.productName}}</h3>
+        <p>{{value.productPinkage}}</p>
+        <span>
+            {{value.productFrom}} {{value.productTime}} {{value.productTips}}
+            <a href="#new-comment">{{value.productComCount}}</a>
+        </span>
+    </div>
+    <div class="about clearfix">
+        <div class="pic">
+            {{#value.productImgSm}}
+        </div>
+        <p>{{value.productInfo}}</p>
+    </div>
+    <p>{{value.productInfo1}}</p>
+    <div class="bigpic">
+        {{#value.productImgLg}}
+    </div>
+    <div class="commodity">
+        {{#value.productCity}}
+    </div>
+    <div class="buy">
+        <a href="#">
+            <i class="glyphicon glyphicon-shopping-cart"></i>
+            前往购买
+        </a>
+    </div>
+    <div class="comment" id="new-comment">
+        {{#value.productComment}}
+    </div>
+    {{/each}}
+</script>
+
+<script>
+    $(function () {
+
+        function getRequest() {
+            var url = window.location.search; //获取url中"?"符后的字串   
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    //就是这句的问题
+                    theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+                    //之前用了unescape()
+                    //才会出现乱码  
+                }
+            }
+            return theRequest;
+        }
+
+        var productid = getRequest()['productid'];
+
+        $.ajax({
+            url: "http://157.122.54.189:9090/api/getmoneyctrlproduct",
+            data: {
+                productid: productid
+            },
+            success: function (backData) {
+                $("#good-detail .intro").html(template("detailTmp", backData));
+
+                //设置最后一个当前位置的内容
+                $("#now-position a:last-of-type").html($("#good-detail .intro .title > h3").html());
+
+                // clickSimulation($("#good-detail .intro .title > span > a"), function() {
+                //     $("html, body").animate({scrollTop: }, 500);
+                // });
+            }
+        });
+
+    })
+</script>
+
+</html>

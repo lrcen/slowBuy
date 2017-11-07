@@ -1,0 +1,255 @@
+@import "./base.less";
+
+html,body {
+    width: 100%;
+}
+// 头部通栏
+#topbar {
+    min-width: 320px;
+    width: 100%;
+    height: 50px;
+    background-color: @theme-color;
+    position: relative;
+    .logo {
+        padding: 12px;
+        height: 100%;
+        margin-right: 50px;
+        background: url("../images/header_logo.png") no-repeat;
+        background-origin: content-box;
+        background-size: 185px 25px;
+        > a {
+            display: block;
+            height: 100%;
+        }
+    }
+    .app {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 50px;
+        height: 100%;
+        padding: 8px;
+        background: url("../images/header_app.png") no-repeat;
+        background-origin: content-box;
+        background-size: 34px 34px;
+        > a {
+            display: block;
+            height: 100%;
+        }
+    }
+}
+
+//搜索栏
+#search {
+    min-width: 320px;
+    height: 50px;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    >form {
+        position: relative;
+        >input[type="text"] {
+            background-color: #ccc;
+            width: 100%;
+            height: 30px;
+            background-color: lightgray;
+            padding-left: 10px;
+            line-height: 30px;
+            border-radius: 15px;
+        }
+        >input[type="submit"] {
+            position: absolute;
+            height: 30px;
+            width: 60px;
+            border-radius: 15px;
+            background-color: @theme-color;
+            right: 0;
+            top: 0;
+            color: #fff;
+        }
+    }
+}
+
+// 分类
+#category {
+    padding: 20px 0;
+    min-width: 320px;
+    width: 100%;
+    .row {
+        margin: 0;
+        >div {
+            text-align: center;
+            padding: 0;
+            >a {
+                display: block;
+                text-decoration: none;
+                &:hover {
+                    text-decoration: none;
+                }
+                >img {
+                    width: 50px;
+                }
+                >h4 {
+                    color: #000;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+// 推荐
+#recommend {
+    min-width: 320px;
+    width: 100%;
+    .title {
+        height: 40px;
+        padding: 10px;
+        background: linear-gradient(to right, orange, @theme-color);
+        position: relative;
+        >h4 {
+            margin: 0;
+            font-size: 14px;
+            color: #fff;
+            font-weight: 700;
+            margin-right: 20px;
+            line-height: 20px;
+        }
+        >a {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #fff;
+            color: #fff;
+            text-align: center;
+            line-height: 20px;
+        }
+    }
+    .goods {
+        .media {
+            padding: 10px;
+            height: 120px;
+            border-bottom: 1px solid #ccc;
+            >a {
+                display: block;
+                font-size: 12px;
+                color: #000;
+                text-decoration: none;
+                .media-left {
+                    >img {
+                        width: 100px;
+                        height: 100px;
+                    }
+                }
+                .media-body {
+                    position: relative;
+                    > h4 {
+                        > span {
+                            color: @theme-color;
+                        }
+                    }
+                    > .about{
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        color: #888;
+                        h4 {
+                            font-size: 18px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .more {
+        padding: 10px;
+        height: 50px;
+        background-color: #ccc;
+        > a {
+            display: block;
+            width: 100%;
+            height: 30px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            color: #000;
+            text-align: center;
+            line-height: 30px;
+            font-size: 12px;
+        }
+    }
+}
+
+// 品牌
+#brand {
+    width: 100%;
+    min-width: 320px;
+    padding: 10px;
+    height: 50px;
+    background: linear-gradient(to right, orange, @theme-color);
+    position: relative;
+    > h4 {
+        margin: 0;
+        line-height: 30px;
+        font-size: 16px;
+        color: #fff;
+    }
+    > a {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        border-radius: 50%;
+        border: 1px solid #fff;
+        color: #fff;
+        line-height: 30px;
+        right: 10px;
+        top: 10px;
+    }
+}
+
+// 登录注册
+#login {
+    margin-top: 10px;
+    height: 30px;
+    overflow: hidden;
+    width: 100%;
+    border-bottom: 1px solid #888;
+    .row {
+        width: 100%;
+        margin: 0;
+        > div {
+            float: left;
+            text-align: center;
+            line-height: 30px;
+            border: 1px solid #888;
+            border-left: 0 none;
+            padding: 0;
+            &:last-of-type {
+                border-right: 0 none;
+            }
+            > a {
+                color: #000;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+// 底部
+#footer {
+    margin-top: 5px;
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    > p {
+        margin-bottom: 0;
+        line-height: 20px;
+        > a {
+            color: @theme-color;
+        }
+    }
+}

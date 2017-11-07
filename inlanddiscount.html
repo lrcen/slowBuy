@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手机比价选购, 手机推荐哪个好 - 慢慢买手机版</title>
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet/less" href="./less/inlanddiscount.less">
+    <script src="./lib/less/less.js"></script>
+</head>
+
+<body>
+
+    <!-- 顶部 -->
+    <header id="topbar">
+        <div class="back">
+            <a href="./index.html">
+                <i class="glyphicon glyphicon-menu-left"></i>
+            </a>
+        </div>
+        <div class="title">
+            国内折扣
+        </div>
+        <div class="app">
+            <a href="javascript:;"></a>
+        </div>
+    </header>
+
+    <!-- 主体部分 -->
+    <main id="count-goods">
+        <ul class="clearfix">
+        </ul>
+    </main>
+
+    <!-- 登录注册 -->
+    <section id="login">
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript:;">登录</a>
+            </div>
+            <div class="col-xs-3">
+                <a href="javascript:;">注册</a>
+            </div>
+            <div class="col-xs-6">
+                <a href="javascript:;">
+                    <i class="glyphicon glyphicon-menu-up"></i>
+                    返回顶部
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer id="footer">
+        <p>
+            <a href="javascript:;">手机APP下载</a>
+            慢慢买手机版 - 掌上比价平台
+        </p>
+        <p>
+            <a href="javascript:;">m.manmanbuy.com</a>
+        </p>
+    </footer>
+
+</body>
+<script src="./lib/jquery/jquery.js"></script>
+<script src="./lib/template/template.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script src="./js/inlanddiscount.js"></script>
+
+<!-- 商品列表模板 -->
+<script type="text/html" id="countgoodTmp">
+    {{each result as value i}}
+    <li>
+        <a href="./inlanddiscountdetail.html?productid={{value.productId}}">
+            <div class="pic">
+                {{#value.productImg}}
+            </div>
+            <h4>{{value.productName}}</h4>
+            <div class="about">
+                <p>{{value.productPrice}}</p>
+                <p>{{value.productFrom}} | {{value.productTime}}</p>
+            </div>
+        </a>
+    </li>
+    {{/each}}
+</script>
+
+<script>
+    $(function () {
+        var scrollHeight = 0;
+        var nowHeight = 0;
+        var nowWindowHeight = 0;
+        var newHtml = '';
+        var newArr = [];
+        var nowHtml = '';
+
+        var flag = true; //节流阀
+
+        $.ajax({
+            url: "http://157.122.54.189:9090/api/getinlanddiscount",
+            success: function (backData) {
+                $("#count-goods ul").html(template("countgoodTmp", backData));
+            }
+        });
+
+        //获取页面滚动距离, 当超过当前总高度的70%时, 就刷新新数据
+        $(window).on("scroll", function () {
+            scrollHeight = $(document).scrollTop(); //当前已滚动的距离
+
+            nowHeight = $(document).height(); //当前页面的总高度
+            nowWindowHeight = $(window).height(); //当前可视窗口的高度
+            // console.log((nowHeight - nowWindowHeight) * 0.95); //相减 得到的是滚到最底部时所滚的高度
+            if (scrollHeight >= (nowHeight - nowWindowHeight) * 0.99) {
+                if(flag) {
+                    flag = false;
+                    $.ajax({
+                        url: "http://157.122.54.189:9090/api/getinlanddiscount",
+                        success: function (backData) {
+                            newHtml = template("countgoodTmp", backData);
+                            nowHtml = $("#count-goods ul").html(); //获取当前已有的数据
+                            newArr = newHtml.split("</li>");
+                            for(var i = 0; i < 4; i++) {
+                                nowHtml += newArr[i];
+                                nowHtml += '</li>';
+                            }
+                            $("#count-goods ul").html(nowHtml);
+                            newHtml = '';
+                            newArr = [];
+                            nowHtml = '';
+                            flag = true;
+                        }
+                    })
+                }
+            }
+        })
+
+    })
+</script>
+
+</html>

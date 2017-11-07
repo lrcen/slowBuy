@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手机比价选购, 手机推荐哪个好 - 慢慢买手机版</title>
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet/less" href="./less/goodsLists.less">
+    <script src="./lib/less/less.js"></script>
+</head>
+
+<body>
+
+    <!-- 顶部 -->
+    <header id="topbar">
+        <div class="logo">
+            <a href="./index.html"></a>
+        </div>
+        <div class="app">
+            <a href="javascript:;"></a>
+        </div>
+    </header>
+
+    <!-- 搜索栏 -->
+    <section id="search">
+        <form action="">
+            <input type="text" placeholder="请输入您想比价的商品">
+            <input type="submit" value="搜索">
+        </form>
+    </section>
+
+    <main id="goods-lists">
+        <div class="title">
+            <a href="javascript:;" class="active">综合</a>
+            <a href="javascript:;">销量</a>
+            <a href="javascript:;">价格</a>
+            <a href="javascript:;">
+                <i class="glyphicon glyphicon-filter"></i>
+                筛选
+            </a>
+        </div>
+        <div class="content">
+        </div>
+        <div class="page">
+            <a href="javascript:;" id="pre">上一页</a>
+            <div class="page-id">
+                <select name="pageid" id="pageid">
+                </select>
+            </div>
+            <a href="javascript:;" id="next">下一页</a>
+        </div>
+    </main>
+
+    <!-- 相关链接 -->
+    <section id="correlation">
+        <h4>相关链接:</h4>
+        <a href="javascript:;">手机十大品牌</a>
+        <a href="javascript:;">手机口碑大全</a>
+    </section>
+
+    <!-- 登录注册 -->
+    <section id="login">
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript:;">登录</a>
+            </div>
+            <div class="col-xs-3">
+                <a href="javascript:;">注册</a>
+            </div>
+            <div class="col-xs-6">
+                <a href="javascript:;">
+                    <i class="glyphicon glyphicon-menu-up"></i>
+                    返回顶部
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer id="footer">
+        <p>
+            <a href="javascript:;">手机APP下载</a>
+            慢慢买手机版 - 掌上比价平台
+        </p>
+        <p>
+            <a href="javascript:;">m.manmanbuy.com</a>
+        </p>
+    </footer>
+</body>
+<script src="./lib/jquery/jquery.js"></script>
+<script src="./lib/template/template.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script src="./js/goodsLists.js"></script>
+
+<!-- 商品列表模板 -->
+<script type="text/html" id="goodsTmp">
+    {{each result as value i}}
+    <div class="media">
+        <a href="./gooddetail.html?productid={{value.productId}}&brandname={{value.brandName}}&categoryid={{value.categoryId}}">
+            <div class="media-left">
+                {{#value.productImg}}
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{value.productName}}</h4>
+                <div class="about">
+                    <div class="price pull-left">
+                        <p>{{value.productPrice}}</p>
+                        <p>{{value.productQuote.replace('报价(', '').replace(')', '')}}商城报价</p>
+                    </div>
+                    <div class="comment pull-right">
+                        有{{value.productCom.replace('评论(', '').replace(")", '')}}人评论
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    {{/each}}
+</script>
+
+<script>
+    $(function () {
+        var categoryid = window.location.search; //可以获取到传递过来的参数和值
+        var pageid = 1;
+        var length;
+        // console.log(categoryid);
+
+        // 获取到指定参数的相应的值的函数
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+
+        function getRequest() {
+            var url = window.location.search; //获取url中"?"符后的字串   
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    //就是这句的问题
+                    theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+                    //之前用了unescape()
+                    //才会出现乱码  
+                }
+            }
+            return theRequest;
+        }
+
+        categoryid = GetQueryString("categoryid");
+        category = getRequest()['category'];
+        // console.log(category);  //获取中文参数值
+        // console.log(categoryid); //拿到传递过来的商品id和商品名称, 根据此id发送ajax请求
+
+        $.ajax({
+            url: "http://157.122.54.189:9090/api/getproductlist",
+            data: {
+                categoryid: categoryid,
+                pageid: pageid,
+                category: category
+            },
+            success: function (backData) {
+                $("#goods-lists .content").html(template("goodsTmp", backData));
+
+                var href = '';
+                $(".media a").each(function(index,value) { //遍历添加分类名称
+                    href = $(value).attr('href');
+                    href += ('&category=' + category);
+                    $(value).attr('href', href);
+                    // console.log($(value).attr("href"));
+                });
+
+                length = Math.ceil(backData.totalCount / backData.pagesize);//计算需要几个页数
+                var html = '';
+                for(var i = 0; i < length; i++) {
+                    html += '<option value="'+(i+1)+'">'+(i+1)+'/'+length+'</option>';
+                }
+                $("#pageid").html(html);
+
+                //点击第几页, 跳转到相应的页面
+                var pageId = 0;
+                $("#pageid").on("change", function() {
+                    pageId = $(this).val();
+                    pageid = pageId;
+                    // console.log(pageId);
+                    $.ajax({
+                        url: "http://157.122.54.189:9090/api/getproductlist",
+                        data: {
+                            categoryid: categoryid,
+                            pageid: pageId,
+                            category: category
+                        },
+                        success: function (backData) {
+                            $("#goods-lists .content").html(template("goodsTmp", backData));
+                        } 
+                    });
+                });
+            }
+        });
+
+        //点击上一页
+        $("#pre").on("click", function () {
+            pageid--;
+            if(pageid < 1) {
+                pageid = 1;
+                return false;
+            }
+            $("#pageid").val(pageid).prop('selected', true);
+            $.ajax({
+                url: "http://157.122.54.189:9090/api/getproductlist",
+                data: {
+                    categoryid: categoryid,
+                    pageid: pageid,
+                    category: category
+                },
+                success: function (backData) {
+                    $("#goods-lists .content").html(template("goodsTmp", backData));
+                }
+            });
+        });
+
+        //点击下一页
+        $("#next").on("click", function () {
+            pageid++;
+            if(pageid > length) {
+                pageid = length;
+                return false;
+            }
+            $("#pageid").val(pageid).prop('selected', true);
+            $.ajax({
+                url: "http://157.122.54.189:9090/api/getproductlist",
+                data: {
+                    categoryid: categoryid,
+                    pageid: pageid,
+                    category: category
+                },
+                success: function (backData) {
+                    $("#goods-lists .content").html(template("goodsTmp", backData));
+                }
+            });
+        });
+
+    })
+</script>
+
+</html>

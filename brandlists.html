@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手机比价选购, 手机推荐哪个好 - 慢慢买手机版</title>
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet/less" href="./less/brandlists.less">
+    <script src="./lib/less/less.js"></script>
+    <style>
+        .first {
+            background-color: red !important;
+        }
+
+        .second {
+            background-color: orange !important;
+        }
+
+        .third {
+            background-color: greenyellow !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 顶部 -->
+    <header id="topbar">
+        <div class="logo">
+            <a href="./index.html"></a>
+        </div>
+        <div class="app">
+            <a href="javascript:;"></a>
+        </div>
+    </header>
+
+    <!-- 搜索栏 -->
+    <section id="search">
+        <form action="">
+            <input type="text" placeholder="请输入您想比价的商品">
+            <input type="submit" value="搜索">
+        </form>
+    </section>
+
+    <!-- 当前位置 -->
+    <div id="now-position">
+        <a href="./index.html">首页</a>
+        >
+        <a href="./brandTitle.html">品牌大全</a>
+        >
+        <a href="javascript:;"></a>
+    </div>
+
+    <!-- 主体商品列表 -->
+    <section id="all-brand">
+        <div class="title">
+            <h4></h4>
+        </div>
+        <div class="content">
+            <ul>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 销量列表 -->
+    <section id="sales">
+        <div class="title">
+            <h4>
+                <a></a>
+            </h4>
+        </div>
+        <div class="content">
+            <ul>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 评论列表 -->
+    <section id="comment">
+        <div class="title">
+            <h4>
+                <a></a>
+            </h4>
+        </div>
+        <div class="content">
+            <ul>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 登录注册 -->
+    <section id="login">
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript:;">登录</a>
+            </div>
+            <div class="col-xs-3">
+                <a href="javascript:;">注册</a>
+            </div>
+            <div class="col-xs-6">
+                <a href="javascript:;">
+                    <i class="glyphicon glyphicon-menu-up"></i>
+                    返回顶部
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer id="footer">
+        <p>
+            <a href="javascript:;">手机APP下载</a>
+            慢慢买手机版 - 掌上比价平台
+        </p>
+        <p>
+            <a href="javascript:;">m.manmanbuy.com</a>
+        </p>
+    </footer>
+</body>
+<script src="./lib/jquery/jquery.js"></script>
+<script src="./lib/template/template.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script src="./js/brandlists.js"></script>
+
+<!-- 各品牌列表模板 -->
+<script type="text/html" id="brandTmp">
+    {{each result as value i}}
+    <li>
+        <a href="">
+            <div class="media">
+                <div class="media-left">
+                    {{if i === 0}}
+                    <span class="first">{{i + 1}}</span>
+                    {{else if i === 1}}
+                    <span class="second">{{i + 1}}</span>
+                    {{else if i === 2}}
+                    <span class="third">{{i + 1}}</span>
+                    {{else}}
+                    <span>{{i + 1}}</span>
+                    {{/if}}
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">{{value.brandName}}</h4>
+                    <p>{{value.brandInfo}}</p>
+                </div>
+            </div>
+            <div class="more">
+                <i class="glyphicon glyphicon-menu-right"></i>
+            </div>
+        </a>
+    </li>
+    {{/each}}
+</script>
+
+<!-- 销量列表模板 -->
+<script type="text/html" id="salesTmp">
+    {{each result as value i}}
+    <li data-id="{{value.productId}}">
+        <a href="./gooddetail.html?productid={{value.productId}}">
+            <div class="media">
+                <div class="media-left">
+                    {{#value.productImg}}
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">{{value.productName}}</h4>
+                    <p>{{value.productPrice}}</p>
+                    <p>{{value.productQuote}}&nbsp;&nbsp;&nbsp;&nbsp;全网{{value.productCom}}</p>
+                </div>
+            </div>
+            <div class="star">
+                <i class="glyphicon glyphicon-star"></i>
+                <i class="glyphicon glyphicon-star"></i>
+                <i class="glyphicon glyphicon-star"></i>
+                <i class="glyphicon glyphicon-star"></i>
+                <i class="glyphicon glyphicon-star"></i>
+            </div>
+        </a>
+    </li>
+    {{/each}}
+</script>
+
+<!-- 用户评论模板 -->
+<script type="text/html" id="commentoneTmp">
+    {{each result as value i}}
+    <li>
+        <a href="javascript:;">
+            <div class="media">
+                <div class="media-left">
+                    {{#value.productImg}}
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">{{value.productName}}</h4>
+                </div>
+            </div>
+        </a>
+        <div class="comments">
+        </div>
+    </li>
+    {{/each}}
+</script>
+<script type="text/html" id="commenttwoTmp">
+    {{each result as value i}}
+    <a href="javascript:;">
+        <div class="info clearfix">
+            <div class="user pull-left">
+                <span>{{value.comName}}</span>
+                <span>
+                    <i class="glyphicon glyphicon-star"></i>
+                    <i class="glyphicon glyphicon-star"></i>
+                    <i class="glyphicon glyphicon-star"></i>
+                    <i class="glyphicon glyphicon-star"></i>
+                    <i class="glyphicon glyphicon-star"></i>
+                </span>
+            </div>
+            <div class="time pull-right">
+                {{value.comTime}}
+            </div>
+        </div>
+        <p>
+            {{value.comContent}}
+        </p>
+    </a>
+    {{/each}}
+</script>
+<script>
+    $(function () {
+        //获取url中的参数
+        function getRequest() {
+            var url = window.location.search; //获取url中"?"符后的字串   
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    //就是这句的问题
+                    theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+                    //之前用了unescape()
+                    //才会出现乱码  
+                }
+            }
+            return theRequest;
+        }
+
+        var name = getRequest()['brandname'];
+        name = name.substr(0, name.indexOf('十'));
+        // console.log(name); //截取 参数中的 部分
+        var str1 = name + '哪个牌子好';
+        $("#now-position a:last-of-type").html(str1);
+        $("#all-brand .title h4").html(str1);
+        var brandid = getRequest()['brandtitleid']; //拿到品牌id
+
+        //发送品牌列表请求
+        $.ajax({
+            url: "http://157.122.54.189:9090/api/getbrand",
+            data: {
+                brandtitleid: brandid
+            },
+            success: function (backData) {
+                $("#all-brand .content ul").html(template("brandTmp", backData));
+            }
+        });
+
+        var str2 = name + '产品销量排行';
+        $("#sales .title h4 a").html(str2);
+
+        //获取分类id
+        var categoryid = getRequest()['categoryid'];
+        $("#sales .title h4 a").attr('href', './goodsLists.html?categoryid=' + categoryid);
+
+        var str3 = name + '最有用的用户评论';
+        $("#comment .title h4 a").html(str3);
+
+        //销量列表请求
+        $.ajax({
+            url: "http://157.122.54.189:9090/api/getbrandproductlist",
+            data: {
+                brandtitleid: brandid,
+                pagesize: 4 //显示4个
+            },
+            success: function (backData) {
+                $("#sales .content ul").html(template("salesTmp", backData));
+                $("#comment .content ul").html(template("commentoneTmp", backData));
+
+                //获取保存的productid
+                var productid = $("#sales .content ul li").data("id");
+                // console.log(productid);
+                
+
+                //等上面请求完成后, 发送下面的请求
+                $.ajax({
+                    url: "http://157.122.54.189:9090/api/getproductcom",
+                    data: {
+                        productid: productid
+                    },
+                    success: function(backData) {
+                        console.log(backData);
+                        var html = '';
+                        var htmlArr = [];
+                        //如果在外面直接遍历生成模板, 此时页面上有四个comments, 会生成四套, 每套里面有四条(假设返回有四条)评论, 
+                        // 很明显, 我们应该把每条分别给不同comments, 而不是每个comments有四条
+                        $("#comment .content ul li .comments").each(function(index,value) {
+                            //投机取巧的办法
+                            //因为现在页面上有四个comments, 遍历得到每个comments
+                            //将模板进行切割, 每次取对应下标的那个模板, 补齐</a>
+                            htmlArr = template("commenttwoTmp", backData).split("</a>");
+                            html = htmlArr[index] + '</a>';
+                            $(value).html(html);
+                        });
+                    }
+                })
+            }
+        });
+
+
+    })
+</script>
+
+</html>

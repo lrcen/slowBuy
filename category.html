@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>产品分类 - 慢慢买比价网</title>
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet/less" href="./less/category.less">
+    <script src="./lib/less/less.js"></script>
+</head>
+
+<body>
+    <!-- 顶部 -->
+    <header id="topbar">
+        <div class="logo">
+            <a href="./index.html"></a>
+        </div>
+        <div class="app">
+            <a href="javascript:;"></a>
+        </div>
+    </header>
+
+    <!-- 搜索栏 -->
+    <section id="search">
+        <form action="">
+            <input type="text" placeholder="请输入您想比价的商品">
+            <input type="submit" value="搜索">
+        </form>
+    </section>
+
+    <!-- 分类 -->
+    <section id="category">
+        <div class="goods-list">
+        </div>
+    </section>
+
+    <!-- 登录注册 -->
+    <section id="login">
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript:;">登录</a>
+            </div>
+            <div class="col-xs-3">
+                <a href="javascript:;">注册</a>
+            </div>
+            <div class="col-xs-6">
+                <a href="javascript:;">
+                    <i class="glyphicon glyphicon-menu-up"></i>
+                    返回顶部
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer id="footer">
+        <p>
+            <a href="javascript:;">手机APP下载</a>
+            慢慢买手机版 - 掌上比价平台
+        </p>
+        <p>
+            <a href="javascript:;">m.manmanbuy.com</a>
+        </p>
+    </footer>
+</body>
+
+<script src="./lib/jquery/jquery.js"></script>
+<script src="./lib/template/template.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script src="./js/category.js"></script>
+
+<!-- 商品分类模板 -->
+<script type="text/html" id="goodsTmp">
+    {{each result as value i}}
+    <div class="goods-name collapses" data-id="{{value.titleId}}">
+        <h4>{{value.title}}</h4>
+        <div class="more">
+            <i class="glyphicon glyphicon-menu-down"></i>
+            <i class="glyphicon glyphicon-menu-up" style="display: none"></i>
+        </div>
+    </div>
+    <div class="detail">
+        <ul class="clearfix">
+        </ul>
+    </div>
+    {{/each}}
+</script>
+
+<!-- 详细商品模板 -->
+<script type="text/html" id="detailTmp">
+    {{each result as value i}}
+    <li data-id="{{value.categoryId}}">
+        <a href="./goodsLists.html?categoryid={{value.categoryId}}&category={{value.category}}">
+            {{value.category}}
+        </a>
+    </li>
+    {{/each}}
+</script>
+
+
+<script>
+    $(function () {
+        var titleid = 0;
+        $.ajax({ //请求8个标题
+            url: "http://157.122.54.189:9090/api/getcategorytitle",
+            success: function (backData) {
+                $("#category .goods-list").html(template("goodsTmp", backData));
+
+                // 保存每一个标题
+                var detail = $("#category .goods-list .goods-name");
+                var isMove = false;
+                // 用于后面保存当前对象
+                var that = null;
+                detail.on("touchstart", function () {});
+                detail.on("touchmove", function () {
+                    isMove = true;
+                });
+                detail.on("touchend", function () {
+                    that = $(this); //保存当前被点击的标签
+                    if (!isMove) {
+                        if ($(this).hasClass("collapses")) {
+                            titleid = $(this).data("id"); //获取早先保存在标签内的自定义属性
+                            $.ajax({ //根据获取到的id发送相应请求
+                                url: "http://157.122.54.189:9090/api/getcategory",
+                                data: {
+                                    titleid: titleid
+                                },
+                                success: function (backData) {
+                                    that.next().children("ul").html(template("detailTmp", backData));
+                                }
+                            });
+                            $(this).find("i.glyphicon-menu-down").hide().siblings().show(); //让两个字体图标切换
+                            $(this).removeClass("collapses").siblings(".goods-name").addClass("collapses"); //展开后 移除当前标签的collapses属性, 给所有其他同类标签加上该属性
+                            $(this).siblings(".goods-name").find("i.glyphicon-menu-down").show().siblings().hide(); //让同类标签的字体图标切换
+                            $(this).next(".detail").show().siblings(".detail").hide(); //让当前被点击标签的下一个 即详情商品列表显示, 其他隐藏
+                        } else {
+                            $(this).find("i.glyphicon-menu-down").show().siblings().hide();
+                            $(this).addClass("collapses");
+
+                            $(this).next(".detail").hide();
+                        }
+                    }
+                    isMove = false;
+                })
+            }
+        });
+    })
+</script>
+
+</html>
